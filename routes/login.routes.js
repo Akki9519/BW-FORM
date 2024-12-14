@@ -1,28 +1,16 @@
-const express = require('express');
-const Login = require('../models/login.models'); 
 
+
+
+
+const express = require('express');
+const itemController = require("../controlller/user.controller");
 const router = express.Router();
 
-router.post('/login', async (req, res) => {
-  const { email, bsgNumber, course, honourableNumber, parchmentNumber } = req.body;
-  console.log(req.body,"body")
+// router.post('/login', itemController.login);
+router.get("/hwbuser", itemController.getAllHwbDetails);
+router.get("/altuser", itemController.getAllAltDetails);
+router.get("/ltuser",itemController.getAllLtDetails);
 
 
-
-  try {
-    const newLogin = new Login({
-      email,
-      bsgNumber,
-      course,
-      honourableNumber,
-      parchmentNumber,
-    });
-    await newLogin.save();
-    res.status(201).json({ message: 'Login data saved successfully' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error saving data' });
-  }
-});
 
 module.exports = router;
