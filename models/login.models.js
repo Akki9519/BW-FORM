@@ -1,33 +1,15 @@
 const mongoose = require('mongoose');
 
-const loginSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, // Validates email format
-  },
-  bsgNumber: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  course: {
-    type: String,
-    required: true,
-  },
-  honourableNumber: {
-    type: String,
-  },
-  parchmentNumber: {
-    type: String,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+// Define the schema for User model
+const userSchema = new mongoose.Schema({
+  email: { type: String, required: true, unique: true },
+  course: { type: String, required: true },
+  honourableNumber: { type: String },
+  bsgnumber: { type: String, required: true },
+  parchmentNumber: { type: String},
+}, { timestamps: true });
 
-const Login = mongoose.model('Login', loginSchema);
+// Create the model
+const User = mongoose.model('User', userSchema);
 
-module.exports = Login;
+module.exports = User;
