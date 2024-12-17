@@ -1,7 +1,7 @@
 const AltModel = require("../models/alt.model.js");
 const ltModel = require("../models/lt.model.js");
 const hwbModel = require("../models/hwb.model.js");
-
+const LoginModel =require("../models/login.models.js")
 exports.getAllHwbDetails = async (req, res) => {
   try {
     // Find all users and populate altDetails if needed
@@ -66,24 +66,15 @@ exports.getAllLtDetails = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     // Destructure the required fields from req.body
-    const { email, course, honourableNumber, bsgnumber, parchmentNumber } = req.body;
-    console.log(req.body, "Request body");
+    const { email, course, honourableNumber, bsgNumber, parchmentNumber } = req.body;
+    console.log(req.body,parchmentNumber,bsgNumber, "Request body");
 
-    if (!honourableNumber && !parchmentNumber) {
+    if (!(honourableNumber || parchmentNumber)) {
       return res.status(400).json({ message: "Both honourableNumber and parchmentNumber are required" });
     }
 
-    // If only one of the required fields is missing, specify which one is missing
-    if (!honourableNumber) {
-      return res.status(400).json({ message: "honourableNumber is required" });
-    }
-
-    if (!parchmentNumber) {
-      return res.status(400).json({ message: "parchmentNumber is required" });
-    }
-
     // Check if additional fields are present (if needed for validation)
-    if (!email || !course || !bsgnumber) {
+    if (!(email && course && bsgNumber)) {
       return res.status(400).json({ message: "email, course, and bsgnumber are required" });
     }
 
@@ -99,8 +90,17 @@ exports.login = async (req, res) => {
       return res.status(401).json({ message: "Invalid honourableNumber or parchmentNumber" });
     }
 
+    const user = new LoginModel({
+      email:email, 
+      course:course,
+       honourableNumber:honourableNumber,
+        bsgNumber:bsgNumber, 
+        parchmentNumber:parchmentNumber
+    });
+
+    await user.save();
     // If user is found, proceed
-    return res.status(200).json({ message: "Login successful", ltuser });
+    return res.status(200).json({ message: "Login successful", ltuser,altuser,hwbuser });
   } catch (error) {
     console.error("Error during login process:", error);
     return res.status(500).json({ message: "Error during login process", error: error.message });
