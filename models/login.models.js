@@ -10,9 +10,7 @@ const userSchema = new mongoose.Schema({
   honourableChargeNo: String,
   issuedDate: Date,
   bsgUid: String,
-  verificationToken: { type: String, default: null },
-  tokenExpiry: { type: Date, default: null },
-  emailVerified: { type: Boolean, default: false },
+
 });
 const User = mongoose.model('User', userSchema);
 

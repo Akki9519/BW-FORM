@@ -33,6 +33,9 @@ const ltSchema = new mongoose.Schema({
         type: String, // Store the file path if saving the PDF to the filesystem
         required: false,
       },
+      verificationToken: { type: String, default: null },
+  tokenExpiry: { type: Date, default: null },
+  emailVerified: { type: Boolean, default: false },
 }, { timestamps: true });
 
 const AltModel = mongoose.model('lt', ltSchema);

@@ -7,7 +7,7 @@ const itemController = require("../controlller/user.controller");
 const router = express.Router();
 
 router.post("/login", itemController.login);
-
+router.post("/formpost", itemController.form);
 router.post("/verify-email", itemController.verifyEmail);
 router.get("/verify-email/:token", itemController.confirmEmailVerification);
 
