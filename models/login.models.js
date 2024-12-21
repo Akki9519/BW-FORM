@@ -1,15 +1,19 @@
 const mongoose = require('mongoose');
-
-// Define the schema for User model
 const userSchema = new mongoose.Schema({
-  email: { type: String, required: true, unique: true },
-  course: { type: String, required: true },
-  honourableNumber: { type: String },
-  bsgNumber: { type: String, required: true },
-  parchmentNumber: { type: String},
-}, { timestamps: true });
-
-// Create the model
+  email: String,
+  bsgNumber: String,
+  course: String,
+  honourableNumber: String,
+  parchmentNumber: String,
+  name: String,
+  state: String,
+  honourableChargeNo: String,
+  issuedDate: Date,
+  bsgUid: String,
+  verificationToken: { type: String, default: null },
+  tokenExpiry: { type: Date, default: null },
+  emailVerified: { type: Boolean, default: false },
+});
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
