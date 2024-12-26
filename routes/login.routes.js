@@ -14,7 +14,7 @@ router.get("/verify-email/:token", itemController.confirmEmailVerification);
 router.get("/hwbuser", itemController.getAllHwbDetails);
 router.get("/altuser", itemController.getAllAltDetails);
 router.get("/ltuser",itemController.getAllLtDetails);
-
+router.put("/ltuser/:userId",itemController.putLtEmailDetails);
 
 
 module.exports = router;

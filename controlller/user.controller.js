@@ -186,7 +186,7 @@ exports.confirmEmailVerification = async (req, res) => {
     }
 
     user.emailVerified = true;
-    user.verificationToken = undefined; // Clear the token
+    user.verificationToken = undefined; 
     user.tokenExpiry = undefined;
     await user.save();
 
@@ -239,3 +239,44 @@ exports.form = async (req, res) => {
   }
 };
 
+exports.putLtEmailDetails=async (req,res)=>{
+
+  // const { userId,email } = req.body; 
+  const userId=req.body.userId; 
+const email =req.body.email;
+const bsgNumber =req.body.bsgNumber; 
+console.log(userId,email,bsgNumber,"request")
+  try {
+    
+    const user = await ltModel.findOneAndUpdate({ _id: userId });
+  console.log(user,"user")
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Update email if it's provided
+    if (email && email !== "NA") {
+      user.email = email;
+    }
+
+    // Update BSG Number if it's provided
+    if (bsgNumber && bsgNumber !== "NA") {
+      user.bsgUid = bsgNumber;
+    }
+
+    // Save updated user
+    await user.save();
+
+    return res.status(200).json({
+      message: "User updated successfully",
+      user: {
+        email: user.email,
+        bsgNumber: user.bsgNumber,
+      },
+    });
+  } catch (error) {
+    console.error("Error updating user:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
