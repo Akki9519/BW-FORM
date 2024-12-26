@@ -140,7 +140,7 @@ exports.verifyEmail = async (req, res) => {
   },
     });
 
-    const verificationLink = `http://localhost:3006/api/v1/verify-email/${verificationToken}`;
+    const verificationLink = `http://localhost:3000/verify/${verificationToken}`;
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
@@ -178,7 +178,7 @@ exports.confirmEmailVerification = async (req, res) => {
       verificationToken: token,
       tokenExpiry: { $gt: Date.now() }, 
     });
-console.log(user,"user")
+    console.log(user,"user")
     if (!user) {
       return res
         .status(400)
@@ -190,7 +190,7 @@ console.log(user,"user")
     user.tokenExpiry = undefined;
     await user.save();
 
-    return res.status(200).json({ message: 'Email verified successfully!' });
+    return res.status(200).json({ message: 'Email verified successfully!' , redirectUrl: '/form'});
   } catch (error) {
     console.error('Error confirming email verification:', error);
     return res.status(500).json({ message: 'Error verifying email. Please try again later.' });
@@ -205,6 +205,9 @@ exports.form = async (req, res) => {
       return res.status(400).json({ message: 'Invalid request body' });
     }
 
+
+
+    
     const formData = new FormModel(req.body);
 
     console.log("Form data received:", formData);
